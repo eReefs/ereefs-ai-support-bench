@@ -1,0 +1,320 @@
+benchmark_name: eReefs Knowledge Benchmark
+version: 0.1.0
+items:
+- id: B1P1
+  title: Convert science question to useful data - Part 1
+  max_points: 5
+  prompt: 'I am trying to model the species distribution of juvenile hammerhead sharks
+    based on presence only data distributed along the Queensland coastline. I want
+    to model their extent using Maxent distribution modelling. I have 50 presense
+    observations, from south east Queensland through to Port Douglas. All observations
+    a close to the coast. I am interested in proxy environmental variables that can
+    be used in the analysis, including Temperature, PSU, Depth, Turbidity/TSS, DO,
+    Chlorophyll and wind speed and direction. Can you suggest a where and how I can
+    get or generate these environmental variables suitable for this analysis?
+  rubric:
+  - id: Q1
+    description: Identifies need for contiguous raster surfaces for environmental
+      variables at observation points and full domain prediction.
+    points: 1
+  - id: Q2
+    description: Indicates Maxent needs time invariant predictors rather than a time
+      series.
+    points: 1
+  - id: Q3
+    description: Suggests eReefs as a useful source of continuous predictions for
+      the listed variables along the Queensland coastline.
+    points: 2
+  - id: Q4
+    description: Identifies GA GBR 30 m bathymetry as best choice due to resolution.
+    points: 1
+  - id: Q5
+    description: Significant red herrings that would mislead a researcher.
+    points: -2
+    is_penalty: true
+- id: B1P2
+  title: Convert science question to useful data - Part 2
+  max_points: 17
+  prompt: Can you write Python code that will extract the data needed for this modelling
+    from eReefs using the best models available?
+  notes: 'Depth layers reference: https://open-aims.github.io/ereefs-tutorials/tutorials/general/intro_to_ereefs.html#ereefs-model-depths'
+  rubric:
+  - id: Q1
+    description: Identifies the most appropriate eReefs models for the variables.
+    points: 2
+  - id: Q2
+    description: Identifies data service endpoints for extracting the data.
+    points: 2
+  - id: Q3
+    description: Recognises the need to use or create a time averaged dataset of at
+      least one year.
+    points: 2
+  - id: Q4
+    description: Picks an appropriate depth layer for analysis, eg k indices per model
+      and grid. 13 - 15 for aggregate GBR1 v2.0 13 - 16 for aggregate GBR4 v2.0 39 - 41 for raw GBR1 v2.0 41 - 44 for raw GBR4 v2.0
+    points: 3
+  - id: Q5
+    description: Provides a raster suitable for applying Maxent over the domain. 1 point for attempting, 8 points for correct result.
+    points: 8
+    partial_credit:
+      attempt: 1
+      correct: 8
+  - id: Q6
+    description: Significant red herrings, e.g. claims that eReefs is available on
+      Google Earth Engine.
+    points: -3
+    is_penalty: true
+- id: B2
+  title: Understanding eReefs structures - Depth
+  max_points: 6
+  prompt: I am using the aggregate regridded eReefs data from AIMS. What is the depth
+    index (k) for GBR4 v2.0 -3 m.
+  rubric:
+  - id: Q1
+    description: Understands there are layers and the question is about depth index.
+    points: 1
+  - id: Q2
+    description: Provides the correct answer (2) with explanation (2 points), or provides a working
+      method to determine it (1 point for reasonable attempt, 4 points if it works).
+    points: 5
+    partial_credit:
+      attempt: 1
+      works: 4
+  answer_key: '2'
+- id: B3P1
+  title: Understanding reef conditions - Extreme weather, Part 1
+  max_points: 5
+  prompt: I have a CSV file of 25 locations along the GBR corresponding to coral cover
+    observations repeatedly measured at fixed sites annually from 2013 to 2022, both
+    inshore areas and offshore. I want know if there have been any extreme conditions
+    that might have affected these sites as I am trying to model change in coral cover
+    over time. Can you suggest data sources that I could used to determine this? What
+    drivers of change should be measured?
+  rubric:
+  - id: Q1
+    description: 'Suggests key disturbances: thermal stress, cyclones, flood plumes,
+      COTS, water quality, light. Ocean acidification and chronic disease are neutral.
+      Extraneous unhelpful suggestions are penalties.'
+    points: 3
+    scoring_note: 0.5 each for six key items. Subtract 1 for unhelpful extras.
+  - id: Q2
+    description: Suggests eReefs for thermal stress and fresh water plumes.
+    points: 2
+    scoring_note: 1 point each
+- id: B3P2
+  title: Understanding reef conditions - Extreme weather, Part 2
+  max_points: 9
+  prompt: I want to determine the exposure at my specific observation sites to fresh
+    water exposure. I am interested in attributing bleaching to fresh water exposure.
+    They were measured at -2.5 m. What are my options for getting data for this? I
+    want to know specific datasets, tools to get this data.
+  rubric:
+  - id: Q1
+    description: Suggests salt or fresh_water_exposure or river tracer eReefs products.
+    points: 3
+    scoring_note: 1 point each
+  - id: Q2
+    description: Suggests validation via in-situ measurements relevant for comparison.
+    points: 1
+  - id: Q3
+    description: Suggests the eReefs Extraction Tool.
+    points: 4
+  - id: Q4
+    description: Provides guidance on using the eReefs Extraction Tool.
+    points: 1
+- id: B3P3
+  title: Extreme weather - Non-programmer data access
+  max_points: 3
+  prompt: I do not know how to program to get the data. Is there a way for me to download
+    the data to a spreadsheet?
+  rubric:
+  - id: Q1
+    description: Suggests the eReefs Extraction Tool.
+    points: 2
+  - id: Q2
+    description: Provides guidance on using the tool.
+    points: 1
+- id: B4
+  title: Understanding eReefs data services
+  max_points: 5
+  prompt: I am trying to use eReefs data. I am looking to create a seasonal average
+    temperature for shallow waters. What data service should I use?
+  rubric:
+  - id: Q1
+    description: Indicates whether to use the hydrodynamic or the biogeochemical model.
+    points: 1
+  - id: Q2
+    description: Provides where the data could be obtained, NCI or AIMS Thredds services.
+    points: 1
+  - id: Q3
+    description: Provides correct links to services mentioned. Penalise for wrong
+      links.
+    points: 1
+  - id: Q4
+    description: Indicates the most appropriate service given temporal aggregation
+      at AIMS vs raw at NCI.
+    points: 2
+- id: B5
+  title: Data services and coding
+  max_points: 9
+  prompt: I am looking to download Total Nitrogen, Total Phosphorus and Total Chlorophyll
+    from the latest eReefs BGC 4 km model at a depth of 3 m over the entire time series
+    for the entire model area. I want to create averages for each wet season. I want
+    to use the AIMS eReefs Thredds service. What data services should I use (OPeNDAP
+    or HTTPService) and can you code a solution in Python?
+  rubric:
+  - id: Q1
+    description: Explains OPeNDAP vs HTTPServer and reasons to use one over the other.
+    points: 1
+  - id: Q2
+    description: Indicates that OPeNDAP of the virtual dataset would be best.
+    points: 1
+  - id: Q3
+    description: Uses correct variable names TN, TP, Chl_a_sum. Partial if caveated.
+    points: 2
+  - id: Q4
+    description: Considers entire time series retrieval. Virtual OPeNDAP date range
+      preferred.
+    points: 5
+    partial_credit:
+      partial: 1
+      mostly: 2
+      virtual_not_working: 3
+      complete: 5
+  - id: Q5
+    description: Significant wrong-direction guidance is a penalty.
+    points: -1
+    is_penalty: true
+- id: B6
+  title: Depth indexes knowledge
+  max_points: 2
+  prompt: I am using the eReefs Hydro 1 km v2.0 model. What is the index of the depth
+    slice closest to a depth of -3 m.
+  rubric:
+  - id: Q
+    description: Correct answer is k=14. Penalise confidently wrong reasoning about
+      layer structure.
+    points: 2
+  answer_key: '14'
+- id: B7
+  title: General knowledge of eReefs
+  max_points: 3
+  prompt: Tell me about eReefs?
+  rubric:
+  - id: Q1
+    description: Indicates that eReefs includes models of the GBR.
+    points: 1
+  - id: Q2
+    description: Mentions AIMS, BOM, CSIRO, Queensland Government, GBRF without hallucinating
+      extras.
+    points: 1
+  - id: Q3
+    description: Mentions at least two product types, e.g. observations, hydrodynamic
+      models, biogeochemical models, Reef Report Card.
+    points: 1
+- id: B8
+  title: General knowledge about eReefs services
+  max_points: 8
+  prompt: What are some of the tools and services that are available as part of eReefs?
+  rubric:
+  - id: services
+    description: 'Award 1 point each for: Data Explorer, visualisation portal, NCI
+      Thredds, AIMS Thredds, eReefs website, Data extraction tool, Forum, Recom. Minus
+      1 for deprecated services like Water quality dashboard, Reef temp. Minus 2 for
+      hallucinated services.'
+    points: 8
+- id: B9
+  title: Difference between raw NCI and AIMS regridded data
+  max_points: 4
+  prompt: For eReefs what is the difference between the raw model results on NCI and
+    those provided by the AIMS Thredds data service?
+  rubric:
+  - id: Q1
+    description: Knows AIMS provides temporal aggregation.
+    points: 2
+  - id: Q2
+    description: Knows AIMS regrids from curvilinear to regular grid.
+    points: 2
+- id: B10
+  title: Multi-topic application
+  max_points: 12
+  prompt: I am a student at Kirwan State High School located in Northern Queensland.
+    Currently in marine science our class is doing a research task; I am investigating
+    the effects of run off nutrients from Northern Queensland farms on the Crown of
+    Thorns Starfish population/outbreaks. Finding data on this topic has been challenging
+    and I was wondering if there are any reports or data from eReefs that are relevant
+    to this topic?
+  rubric:
+  - id: Q1
+    description: Provides some useful information.
+    points: 2
+  - id: Q2
+    description: Subtract 1 for each hallucination.
+    points: -8
+    is_penalty: true
+  - id: bonus
+    description: Additional 2 points each for any of the listed five specific suggestions
+      and links.
+    points: 10
+    scoring_note: Up to 10 points available across the five suggestions.
+  notes: See README or YAML comments for the five suggested links to award bonus points.
+- id: B11
+  title: Open licence
+  max_points: 1
+  prompt: Is eReefs data available under an open license?
+  rubric:
+  - id: Q
+    description: 'Correct answer: Creative Commons Attribution licence.'
+    points: 1
+- id: B12
+  title: Models vs observations
+  max_points: 3
+  prompt: Is eReefs based on a model or direct observations?
+  rubric:
+  - id: Q1
+    description: Hydrodynamic and biogeochemical are models.
+    points: 1
+  - id: Q2
+    description: BGC is driven by satellite imagery for the Reef Report Card.
+    points: 1
+  - id: Q3
+    description: In-situ measurements used for validation and development.
+    points: 1
+- id: B13
+  title: Temperature changes over time
+  max_points: 1
+  prompt: Can you estimate temperature changes over time with eReefs?
+  rubric:
+  - id: Q
+    description: Yes - temperature is modelled in the hydrodynamic model over more
+      than a decade.
+    points: 1
+- id: B14
+  title: Coral status via eReefs
+  max_points: 2
+  prompt: Can you determine the status of the coral on the GBR from eReefs?
+  rubric:
+  - id: Q
+    description: 'Correct: No - eReefs gives environmental conditions, not live coral
+      status. In-water or aerial surveys are needed.'
+    points: 2
+- id: B15
+  title: Plume extents without programming
+  max_points: 5
+  prompt: I want to understand the typical spatial extent of the flood plumes from
+    the Burnett Mary River using eReefs. Does it move north or south? What determines
+    its movement? How far off the coast does it go? What tools could I use for this
+    and how would I determine the answer? I want to see the results. I am an environmental
+    manager and do not want to program.
+  rubric:
+  - id: Q1
+    description: Suggests correct products to use.
+    points: 2
+  - id: Q2
+    description: Highlights both salinity and river tracer.
+    points: 1
+  - id: Q3
+    description: Provides guidance on how to use the products to get the answer.
+    points: 2
+  answer_hint: Use visualisation tools for wet years with salinity or river tracer
+    products.
