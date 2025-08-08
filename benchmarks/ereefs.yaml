@@ -11,7 +11,7 @@ items:
     a close to the coast. I am interested in proxy environmental variables that can
     be used in the analysis, including Temperature, PSU, Depth, Turbidity/TSS, DO,
     Chlorophyll and wind speed and direction. Can you suggest a where and how I can
-    get or generate these environmental variables suitable for this analysis?
+    get or generate these environmental variables suitable for this analysis?'
   rubric:
   - id: Q1
     description: Identifies need for contiguous raster surfaces for environmental
