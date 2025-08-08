@@ -40,7 +40,7 @@ spec = load_spec()
 items = spec["items"]
 item_dict = {it["id"]: it for it in items}
 
-st.title("eReefs AI Benchmark - Manual Scoring (JSON Run Mode)")
+st.title("eReefs AI Benchmark - Manual Scoring")
 
 st.sidebar.header("Run Management")
 
@@ -162,7 +162,12 @@ if run is not None:
     st.markdown(f"**Prompt:**\n{item['prompt']}")
 
     st.write("Paste the model's answer")
-    model_answer = st.text_area("Model answer", value=model_answer, height=220)
+    model_answer = st.text_area(
+        "Model answer",
+        value=model_answer,
+        height=220,
+        key=f"model_answer_{chosen_id}"
+    )
 
     st.write("Scoring")
     rows = []
@@ -174,24 +179,33 @@ if run is not None:
         pts = crit["points"]
         helptext = crit.get("scoring_note", "")
         default = criterion_scores.get(cid, {}).get("awarded_points", 0)
-        notes_default = criterion_scores.get(cid, {}).get("notes", "")
         col1, col2 = st.columns([0.7, 0.3])
         with col1:
             st.markdown(f"**{cid}**: {desc}")
             if helptext:
                 st.caption(helptext)
         with col2:
-            score = st.number_input(f"Points for {cid} ({min(0, pts)} - {max(pts, 0)})", min_value=min(0, pts), max_value=max(pts, 0), value=default, step=1, key=f"score_{cid}")
-        notes = st.text_input(f"Notes for {cid}", value=notes_default, key=f"notes_{cid}")
+            score = st.number_input(
+                f"Points for {cid} ({min(0, pts)} - {max(pts, 0)})",
+                min_value=min(0, pts),
+                max_value=max(pts, 0),
+                value=default,
+                step=1,
+                key=f"score_{chosen_id}_{cid}"
+            )
         total += score
-        criterion_results.append({"id": cid, "awarded_points": score, "max_points": pts, "notes": notes})
+        criterion_results.append({"id": cid, "awarded_points": score, "max_points": pts})
 
     max_points = item.get("max_points", sum(max(0, r["points"]) for r in item["rubric"]))
     st.markdown(f"**Subtotal: {total} / {max_points}**")
 
     # Collapsible notes field
     with st.expander("Add/View Notes for this question", expanded=False):
-        question_notes = st.text_area("Notes for this question", value=question_notes, key="question_notes")
+        question_notes = st.text_area(
+            "Notes for this question",
+            value=question_notes,
+            key=f"question_notes_{chosen_id}"
+        )
 
     save = st.button("Save answer for this question")
 
